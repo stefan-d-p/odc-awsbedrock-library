@@ -83,7 +83,8 @@ public struct AnthropicClaude3SourceRequest
     [OSStructureField(
         Description = "The encoding type for the image.",
         DataType = OSDataType.Text,
-        IsMandatory = true)]
+        IsMandatory = false,
+        DefaultValue = "base64")]
     public string Type;
     
     [OSStructureField(
