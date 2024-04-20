@@ -78,6 +78,29 @@ namespace Without.Systems.BedrockRuntime
             [OSParameter(
                 Description = "Mistral Text Request structure")]
             MistralTextRequest request);
-        
+
+        [OSAction(
+            Description = "Invoke an Cohere Command Model",
+            ReturnName = "response",
+            ReturnDescription = "Command response",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.BedrockRuntime.Resources.Cohere.png")]
+        CohereCommandResponse CohereCommandText(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Cohere Command Model identifier",
+                DataType = OSDataType.Text)]
+            string modelId,
+            [OSParameter(
+                Description = "Cohere Command Request structure")]
+            CohereCommandRequest request);
+
     }
 }

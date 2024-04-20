@@ -57,10 +57,26 @@ public class BedrockRuntime : IBedrockRuntime
             
             cfg.CreateMap<MistralTextResponseDto, MistralTextResponse>();
             cfg.CreateMap<MistralTextOutputItemDto, MistralTextOutputItem>();
+
+            cfg.CreateMap<CohereCommandRequest, CohereCommandRequestDto>();
+            cfg.CreateMap<CohereCommandResponseDto, CohereCommandResponse>();
+            cfg.CreateMap<CohereCommandGenerationDto, CohereCommandGeneration>();
         });
         _automapper = mapperConfiguration.CreateMapper();
     }
 
+    public CohereCommandResponse CohereCommandText(Credentials credentials, string region, string modelId,
+        CohereCommandRequest request)
+    {
+        var dtoRequest = _automapper.Map<CohereCommandRequestDto>(request);
+        using (MemoryStream payload = new MemoryStream(JsonSerializer.SerializeToUtf8Bytes(dtoRequest, _serializerOptions)))
+        using (MemoryStream response = InvokeModel(credentials, region, modelId, payload))
+        {
+            var dtoResponse = JsonSerializer.Deserialize<CohereCommandResponseDto>(Encoding.UTF8.GetString(response.ToArray()), _serializerOptions);
+            return _automapper.Map<CohereCommandResponse>(dtoResponse);
+        }
+    }
+    
     public MistralTextResponse MistralText(Credentials credentials, string region, string modelId,
         MistralTextRequest request)
     {

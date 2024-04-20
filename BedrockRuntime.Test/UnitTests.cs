@@ -90,5 +90,24 @@ public class Tests
 
         var result = _actions.MistralText(_credentials, _awsRegion, model, request);
     }
+
+    [Test]
+    public void Cohere_Command_Generate()
+    {
+        CohereCommandRequest request = new CohereCommandRequest
+        {
+            Prompt = "What is a whale?",
+            MaxTokens = 400,
+            Temperature = 0.9f,
+            TopK = 0,
+            TopP = 0.1f
+        };
+
+        string model = "cohere.command-text-v14";
+        
+        var result = _actions.CohereCommandText(_credentials, _awsRegion, model, request);
+        
+        Assert.That(result.Generations.Count,Is.Positive);
+    }
     
 }

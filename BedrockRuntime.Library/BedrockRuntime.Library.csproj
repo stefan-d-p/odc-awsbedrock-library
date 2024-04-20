@@ -23,6 +23,8 @@
       <EmbeddedResource Include="Resources\Amazon.png" />
       <None Remove="Resources\Mistral.png" />
       <EmbeddedResource Include="Resources\Mistral.png" />
+      <None Remove="Resources\Cohere.png" />
+      <EmbeddedResource Include="Resources\Cohere.png" />
     </ItemGroup>
 
 </Project>
