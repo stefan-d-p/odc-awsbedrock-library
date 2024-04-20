@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BedrockRuntime.Library", "BedrockRuntime.Library\BedrockRuntime.Library.csproj", "{3844ABC4-7CCC-4BE4-8D64-8EC128BBF467}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BedrockRuntime.Test", "BedrockRuntime.Test\BedrockRuntime.Test.csproj", "{53891585-F265-4C49-AD14-EC78232EB927}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3844ABC4-7CCC-4BE4-8D64-8EC128BBF467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3844ABC4-7CCC-4BE4-8D64-8EC128BBF467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3844ABC4-7CCC-4BE4-8D64-8EC128BBF467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3844ABC4-7CCC-4BE4-8D64-8EC128BBF467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53891585-F265-4C49-AD14-EC78232EB927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53891585-F265-4C49-AD14-EC78232EB927}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53891585-F265-4C49-AD14-EC78232EB927}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53891585-F265-4C49-AD14-EC78232EB927}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
