@@ -11,13 +11,11 @@ public struct AmazonTitanTextRequest
         Description = "Input Text",
         DataType = OSDataType.Text,
         IsMandatory = true)]
-    //[JsonPropertyName("inputText")]
     public string InputText;
 
     [OSStructureField(
         Description = "Titan Text Generation Configuration",
         IsMandatory = false)]
-    //[JsonPropertyName("textGenerationConfig")]
     public AmazonTitanTextConfiguration Configuration;
 
 }
@@ -34,7 +32,6 @@ public struct AmazonTitanTextConfiguration
         Description = "Use a lower value to decrease randomness in the response.",
         IsMandatory = false,
         DefaultValue = "1.0")]
-    //[JsonPropertyName("temperature")]
     public float Temperature = 1.0f;
 
     [OSStructureField(
@@ -42,6 +39,5 @@ public struct AmazonTitanTextConfiguration
         DataType = OSDataType.Integer,
         IsMandatory = false,
         DefaultValue = "512")]
-    //[JsonPropertyName("maxTokenCount")]
     public int MaxTokenCount = 512;
 }
