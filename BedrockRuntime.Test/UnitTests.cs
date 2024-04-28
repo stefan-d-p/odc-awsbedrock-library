@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using Without.Systems.BedrockRuntime.Models;
 using Without.Systems.BedrockRuntime.Structures;
 
 namespace Without.Systems.BedrockRuntime.Test;
@@ -108,6 +107,24 @@ public class Tests
         var result = _actions.CohereCommandText(_credentials, _awsRegion, model, request);
         
         Assert.That(result.Generations.Count,Is.Positive);
+    }
+    
+    [Test]
+    public void Meta_Llama_Generate()
+    {
+        MetaLlamaTextRequest request = new MetaLlamaTextRequest
+        {
+            Prompt = "What is a whale?",
+            MaxTokens = 512,
+            Temperature = 0.5f,
+            TopP = 0.9f
+        };
+
+        string model = "meta.llama3-8b-instruct-v1:0";
+        
+        var result = _actions.MetaLlamaText(_credentials, _awsRegion, model, request);
+        
+        Assert.That(result.text,Is.Not.Empty);
     }
     
 }

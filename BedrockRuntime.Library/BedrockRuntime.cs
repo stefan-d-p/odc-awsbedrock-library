@@ -61,7 +61,11 @@ public class BedrockRuntime : IBedrockRuntime
             cfg.CreateMap<CohereCommandRequest, CohereCommandRequestDto>();
             cfg.CreateMap<CohereCommandResponseDto, CohereCommandResponse>();
             cfg.CreateMap<CohereCommandGenerationDto, CohereCommandGeneration>();
+            
+            cfg.CreateMap<MetaLlamaTextRequest, MetaLlamaTextRequestDto>();
+            cfg.CreateMap<MetaLlamaTextResponseDto, MetaLlamaTextResponse>();
         });
+        
         _automapper = mapperConfiguration.CreateMapper();
     }
 
@@ -100,6 +104,19 @@ public class BedrockRuntime : IBedrockRuntime
             var dtoResponse = JsonSerializer.Deserialize<AnthropicClaude3TextResponseDto>(Encoding.UTF8.GetString(response.ToArray()), _serializerOptions);
             return _automapper.Map<AnthropicClaude3TextResponse>(dtoResponse);
         }
+    }
+
+    public MetaLlamaTextResponse MetaLlamaText(Credentials credentials, string region, string modelId,
+        MetaLlamaTextRequest request)
+    {
+        var dtoRequest = _automapper.Map<MetaLlamaTextRequestDto>(request);
+        using (MemoryStream payload = new MemoryStream(JsonSerializer.SerializeToUtf8Bytes(dtoRequest, _serializerOptions)))
+        using (MemoryStream response = InvokeModel(credentials, region, modelId, payload))
+        {
+            var dtoResponse = JsonSerializer.Deserialize<MetaLlamaTextResponseDto>(Encoding.UTF8.GetString(response.ToArray()), _serializerOptions);
+            return _automapper.Map<MetaLlamaTextResponse>(dtoResponse);
+        }
+        
     }
 
     public AmazonTitanTextResponse AmazonTitanText(Credentials credentials, string region, string modelId,
