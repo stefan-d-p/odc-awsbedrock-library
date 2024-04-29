@@ -167,5 +167,24 @@ namespace Without.Systems.BedrockRuntime
                 Description = "Cohere Embed Request")]
             CohereEmbedRequest request);
 
+        [OSAction(
+            Description = "Create Images with Stability Diffusion 1.0",
+            ReturnName = "response",
+            ReturnDescription = "Embeddings response",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.BedrockRuntime.Resources.Stability.png")]
+        StabilityDiffusionTextToImageResponse StabilityDiffusionTextToImage(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Stability Diffusion Request")]
+            StabilityDiffusionTextToImageRequest request);
+
     }
 }

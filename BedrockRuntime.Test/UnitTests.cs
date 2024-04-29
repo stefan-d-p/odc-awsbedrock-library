@@ -153,5 +153,25 @@ public class Tests
         var result = _actions.CohereEmbeddings(_credentials, _awsRegion, model,request);
         Assert.That(result.Embeddings.Count, Is.Positive);
     }
+
+    [Test]
+    public void Stability_Diffusion_GenerateImage()
+    {
+        StabilityDiffusionTextToImageRequest request = new StabilityDiffusionTextToImageRequest
+        {
+            TextPrompts = new List<StabilityDiffusionTextPrompt>
+                { new StabilityDiffusionTextPrompt { Text = "A whale in front of a ship " } },
+            Height = 1024,
+            Width = 1024,
+            Steps = 30,
+            CfgScale = 10,
+            ClipGuidancePreset = "NONE"
+        };
+        
+        var result = _actions.StabilityDiffusionTextToImage(_credentials, _awsRegion, request);
+        
+        Assert.That(result.Artifacts.Count, Is.Positive);
+        
+    }
     
 }

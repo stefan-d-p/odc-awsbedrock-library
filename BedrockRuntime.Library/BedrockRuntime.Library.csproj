@@ -27,6 +27,8 @@
       <EmbeddedResource Include="Resources\Cohere.png" />
       <None Remove="Resources\Meta.png" />
       <EmbeddedResource Include="Resources\Meta.png" />
+      <None Remove="Resources\Stability.png" />
+      <EmbeddedResource Include="Resources\Stability.png" />
     </ItemGroup>
 
 </Project>

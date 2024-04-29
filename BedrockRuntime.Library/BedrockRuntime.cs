@@ -73,8 +73,15 @@ public class BedrockRuntime : IBedrockRuntime
 
             cfg.CreateMap<List<float>, Vector>()
                 .ForMember(destination => destination.Embedding, opt => opt.MapFrom(src => src));
-        });
+            
+            cfg.CreateMap<StabilityDiffusionTextToImageRequest, StabilityDiffusionTextToImageRequestDto>();
+            cfg.CreateMap<StabilityDiffusionTextPrompt, StabilityDiffusionTextPromptDto>();
+            cfg.CreateMap<StabilityDiffusionTextToImageResponseDto, StabilityDiffusionTextToImageResponse>();
+            cfg.CreateMap<StabilityDiffusionArtifactDto, StabilityDiffusionArtifact>()
+                .ForMember(destination => destination.Image,
+                    opt => opt.MapFrom(source => Convert.FromBase64String(source.Image)));
 
+        });
 
         _automapper = mapperConfiguration.CreateMapper();
     }
@@ -166,6 +173,20 @@ public class BedrockRuntime : IBedrockRuntime
         {
             var dtoResponse = JsonSerializer.Deserialize<AmazonTitanEmbeddingsResponseDto>(Encoding.UTF8.GetString(response.ToArray()), _serializerOptions);
             return _automapper.Map<AmazonTitanEmbeddingsResponse>(dtoResponse);
+        }
+    }
+
+    public StabilityDiffusionTextToImageResponse StabilityDiffusionTextToImage(Credentials credentials, string region,
+        StabilityDiffusionTextToImageRequest request)
+    {
+        const string modelId = "stability.stable-diffusion-xl-v1";
+        var dtoRequest = _automapper.Map<StabilityDiffusionTextToImageRequestDto>(request);
+        
+        using (MemoryStream payload = new MemoryStream(JsonSerializer.SerializeToUtf8Bytes(dtoRequest, _serializerOptions)))
+        using (MemoryStream response = InvokeModel(credentials, region, modelId, payload))
+        {
+            var dtoResponse = JsonSerializer.Deserialize<StabilityDiffusionTextToImageResponseDto>(Encoding.UTF8.GetString(response.ToArray()), _serializerOptions);
+            return _automapper.Map<StabilityDiffusionTextToImageResponse>(dtoResponse);
         }
     }
 
