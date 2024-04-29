@@ -37,3 +37,17 @@ public struct AmazonTitanTextResultItem
         DataType = OSDataType.Text)]
     public string CompletionReason;
 }
+
+[OSStructure(
+    Description = "Amazon Titan Embeddings G1 model response")]
+public struct AmazonTitanEmbeddingsResponse
+{
+    [OSStructureField(
+        Description = "An array that represents the embedding vector of the input you provided.")]
+    public List<float> Embedding;
+    
+    [OSStructureField(
+        Description = "The number of tokens in the input.",
+        DataType = OSDataType.Integer)]
+    public int InputTokenCount;
+}

@@ -30,7 +30,7 @@ public class BedrockRuntime : IBedrockRuntime
         {
             cfg.CreateMap<AmazonTitanTextRequest, AmazonTitanTextRequestDto>();
             cfg.CreateMap<AmazonTitanTextConfiguration, AmazonTitanTextConfigurationDto>();
-            
+
             cfg.CreateMap<AmazonTitanTextResponseDto, AmazonTitanTextResponse>();
             cfg.CreateMap<AmazonTitanTextResultItemDto, AmazonTitanTextResultItem>();
 
@@ -54,18 +54,28 @@ public class BedrockRuntime : IBedrockRuntime
                         destination.Prompt = $"<s>[INST]{source.Prompt}[/INST]";
                     }
                 });
-            
+
             cfg.CreateMap<MistralTextResponseDto, MistralTextResponse>();
             cfg.CreateMap<MistralTextOutputItemDto, MistralTextOutputItem>();
 
             cfg.CreateMap<CohereCommandRequest, CohereCommandRequestDto>();
             cfg.CreateMap<CohereCommandResponseDto, CohereCommandResponse>();
             cfg.CreateMap<CohereCommandGenerationDto, CohereCommandGeneration>();
-            
+
             cfg.CreateMap<MetaLlamaTextRequest, MetaLlamaTextRequestDto>();
             cfg.CreateMap<MetaLlamaTextResponseDto, MetaLlamaTextResponse>();
+
+            cfg.CreateMap<AmazonTitanEmbeddingsRequest, AmazonTitanEmbeddingsRequestDto>();
+            cfg.CreateMap<AmazonTitanEmbeddingsResponseDto, AmazonTitanEmbeddingsResponse>();
+
+            cfg.CreateMap<CohereEmbedRequest, CohereEmbedRequestDto>();
+            cfg.CreateMap<CohereEmbedResponseDto, CohereEmbedResponse>();
+
+            cfg.CreateMap<List<float>, Vector>()
+                .ForMember(destination => destination.Embedding, opt => opt.MapFrom(src => src));
         });
-        
+
+
         _automapper = mapperConfiguration.CreateMapper();
     }
 
@@ -129,6 +139,33 @@ public class BedrockRuntime : IBedrockRuntime
         {
             var dtoResponse = JsonSerializer.Deserialize<AmazonTitanTextResponseDto>(Encoding.UTF8.GetString(response.ToArray()), _serializerOptions);
             return _automapper.Map<AmazonTitanTextResponse>(dtoResponse);
+        }
+    }
+
+    public CohereEmbedResponse CohereEmbeddings(Credentials credentials, string region, string modelId,
+        CohereEmbedRequest request)
+    {
+        var dtoRequest = _automapper.Map<CohereEmbedRequestDto>(request);
+        
+        using (MemoryStream payload = new MemoryStream(JsonSerializer.SerializeToUtf8Bytes(dtoRequest, _serializerOptions)))
+        using (MemoryStream response = InvokeModel(credentials, region, modelId, payload))
+        {
+            var dtoResponse = JsonSerializer.Deserialize<CohereEmbedResponseDto>(Encoding.UTF8.GetString(response.ToArray()), _serializerOptions);
+            return _automapper.Map<CohereEmbedResponse>(dtoResponse);
+        }
+    }
+
+    public AmazonTitanEmbeddingsResponse AmazonTitanEmbeddings(Credentials credentials, string region,
+        AmazonTitanEmbeddingsRequest request)
+    {
+        const string modelId = "amazon.titan-embed-text-v1";
+        var dtoRequest = _automapper.Map<AmazonTitanEmbeddingsRequestDto>(request);
+        
+        using (MemoryStream payload = new MemoryStream(JsonSerializer.SerializeToUtf8Bytes(dtoRequest, _serializerOptions)))
+        using (MemoryStream response = InvokeModel(credentials, region, modelId, payload))
+        {
+            var dtoResponse = JsonSerializer.Deserialize<AmazonTitanEmbeddingsResponseDto>(Encoding.UTF8.GetString(response.ToArray()), _serializerOptions);
+            return _automapper.Map<AmazonTitanEmbeddingsResponse>(dtoResponse);
         }
     }
 

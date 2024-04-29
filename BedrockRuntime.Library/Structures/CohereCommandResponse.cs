@@ -34,3 +34,42 @@ public struct CohereCommandGeneration
         DataType = OSDataType.Text)]
     public string Text;
 }
+
+[OSStructure(
+    Description = "Cohere Embed Model Response")]
+public struct CohereEmbedResponse
+{
+    [OSStructureField(
+        Description = "An identifier for the response.",
+        DataType = OSDataType.Text)]
+    public string Id;
+
+    [OSStructureField(
+        Description = "The response type. This value is always embeddings_floats.",
+        DataType = OSDataType.Text)]
+    public string ResponseType;
+    
+    [OSStructureField(
+        Description = "An array of embeddings, where each embedding is an array of floats with 1024 elements. The length of the embeddings array will be the same as the length of the original texts array.")]
+    public List<Vector> Embeddings;
+    
+    [OSStructureField(
+        Description = "An array containing the text entries for which embeddings were returned.")]
+    public List<string> Texts;
+}
+
+[OSStructure(
+    Description = "Vector struct. Representing a single vector embeddings array"
+)]
+public struct Vector
+{
+    [OSStructureField(
+        Description = "Embedding array")]
+    public List<float> Embedding;
+
+    public Vector(List<float> embedding)
+    {
+        Embedding = embedding;
+    }
+    
+}

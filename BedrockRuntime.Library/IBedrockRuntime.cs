@@ -125,5 +125,47 @@ namespace Without.Systems.BedrockRuntime
                 Description = "Meta Llama Request structure")]
             MetaLlamaTextRequest request);
 
+        [OSAction(
+            Description = "Convert text to embeddings using Amazon Titan Embeddings model",
+            ReturnName = "response",
+            ReturnDescription = "Embeddings response",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.BedrockRuntime.Resources.Amazon.png")]
+        AmazonTitanEmbeddingsResponse AmazonTitanEmbeddings(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Amazon Titan Embeddings Request")]
+            AmazonTitanEmbeddingsRequest request);
+
+        [OSAction(
+            Description = "Convert text to embeddings using Cohere Embed",
+            ReturnName = "response",
+            ReturnDescription = "Embeddings response",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.BedrockRuntime.Resources.Cohere.png")]
+        CohereEmbedResponse CohereEmbeddings(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Cohere Embed model identifier",
+                DataType = OSDataType.Text)]
+            string modelId,
+            [OSParameter(
+                Description = "Cohere Embed Request")]
+            CohereEmbedRequest request);
+
     }
 }

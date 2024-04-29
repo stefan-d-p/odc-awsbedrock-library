@@ -19,3 +19,15 @@ public class CohereCommandRequestDto
     [JsonPropertyName("k")]
     public int TopK = 0;
 }
+
+public struct CohereEmbedRequestDto
+{
+    [JsonPropertyName("texts")]
+    public List<string> Texts;
+   
+    [JsonPropertyName("input_type")]
+    public string InputType;
+    
+    [JsonPropertyName("truncate")]
+    public string Truncate;
+}

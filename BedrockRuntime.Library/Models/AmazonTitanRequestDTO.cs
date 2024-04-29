@@ -20,3 +20,9 @@ public class AmazonTitanTextConfigurationDto
     [JsonPropertyName("maxTokenCount")]
     public int MaxTokenCount = 512;
 }
+
+public class AmazonTitanEmbeddingsRequestDto
+{
+    [JsonPropertyName("inputText")]
+    public string InputText;
+}

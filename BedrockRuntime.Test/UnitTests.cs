@@ -126,5 +126,32 @@ public class Tests
         
         Assert.That(result.text,Is.Not.Empty);
     }
+
+    [Test]
+    public void Amazon_Titan_Embeddings_Convert()
+    {
+        AmazonTitanEmbeddingsRequest request = new AmazonTitanEmbeddingsRequest
+        {
+            InputText = "OutSystems is the leading high-performance low code application platform"
+        };
+        
+        var result = _actions.AmazonTitanEmbeddings(_credentials, _awsRegion, request);
+        Assert.That(result.Embedding.Count, Is.Positive);
+    }
+    
+    [Test]
+    public void Cohere_Embeddings_Convert()
+    {
+        CohereEmbedRequest request = new CohereEmbedRequest
+        {
+            Texts = new List<string> { "OutSystems is the leading high-performance low code application platform" },
+            InputType = "search_document"
+        };
+        
+        string model = "cohere.embed-english-v3";
+        
+        var result = _actions.CohereEmbeddings(_credentials, _awsRegion, model,request);
+        Assert.That(result.Embeddings.Count, Is.Positive);
+    }
     
 }

@@ -22,3 +22,12 @@ public class AmazonTitanTextResultItemDto
     [JsonPropertyName("completionReason")]
     public string? CompletionReason;
 }
+
+public class AmazonTitanEmbeddingsResponseDto
+{
+    [JsonPropertyName("embedding")]
+    public List<float> Embedding;
+    
+    [JsonPropertyName("inputTextTokenCount")]
+    public int? InputTokenCount;
+}

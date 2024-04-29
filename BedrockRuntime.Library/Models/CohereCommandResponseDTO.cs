@@ -22,3 +22,19 @@ public class CohereCommandGenerationDto
     [JsonPropertyName("text")]
     public string? Text;
 }
+
+public class CohereEmbedResponseDto
+{
+ 
+    [JsonPropertyName("id")]
+    public string Id;
+
+    [JsonPropertyName("response_type")]
+    public string ResponseType;
+    
+    [JsonPropertyName("embeddings")]
+    public List<List<float>> Embeddings;
+    
+    [JsonPropertyName("texts")]
+    public List<string> Texts;
+}

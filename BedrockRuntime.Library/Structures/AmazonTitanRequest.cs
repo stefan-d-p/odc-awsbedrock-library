@@ -41,3 +41,14 @@ public struct AmazonTitanTextConfiguration
         DefaultValue = "512")]
     public int MaxTokenCount = 512;
 }
+
+[OSStructure(
+    Description = "Amazon Titan Embeddings G1 Request model")]
+public struct AmazonTitanEmbeddingsRequest
+{
+    [OSStructureField(
+        Description = "Text that should be converted to embeddings",
+        DataType = OSDataType.Text,
+        IsMandatory = true)]
+    public string InputText;
+}
