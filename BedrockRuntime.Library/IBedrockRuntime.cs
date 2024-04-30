@@ -57,7 +57,7 @@ namespace Without.Systems.BedrockRuntime
             AmazonTitanTextRequest request);
 
         [OSAction(
-            Description = "Invoke an Mistral Text Model",
+            Description = "Invoke a Mistral Text Model",
             ReturnName = "response",
             ReturnDescription = "Mistral response",
             ReturnType = OSDataType.InferredFromDotNetType,
@@ -80,7 +80,7 @@ namespace Without.Systems.BedrockRuntime
             MistralTextRequest request);
 
         [OSAction(
-            Description = "Invoke an Cohere Command Model",
+            Description = "Invoke a Cohere Command Model",
             ReturnName = "response",
             ReturnDescription = "Command response",
             ReturnType = OSDataType.InferredFromDotNetType,
@@ -103,7 +103,7 @@ namespace Without.Systems.BedrockRuntime
             CohereCommandRequest request);
         
         [OSAction(
-            Description = "Invoke an Meta Llama Model",
+            Description = "Invoke a Meta Llama Model",
             ReturnName = "response",
             ReturnDescription = "Command response",
             ReturnType = OSDataType.InferredFromDotNetType,
