@@ -134,8 +134,10 @@ public class Tests
         {
             InputText = "OutSystems is the leading high-performance low code application platform"
         };
+
+        const string modelId = "amazon.titan-embed-text-v2:0";
         
-        var result = _actions.AmazonTitanEmbeddings(_credentials, _awsRegion, request);
+        var result = _actions.AmazonTitanEmbeddings(_credentials, _awsRegion, modelId, request);
         Assert.That(result.Embedding.Count, Is.Positive);
     }
     

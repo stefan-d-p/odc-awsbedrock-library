@@ -90,6 +90,7 @@ Convert text to embeddings using Amazon Titan Embeddings model
 
 * `credentials` - AWS IAM credentials. You can either use IAM user credentials (Access Key and Secret Access Key) or an IAM role (Access Key, Secret Access Key and Session Token)
 * `region` - The AWS region system name (e.g. us-east-1). Make sure to specify a region where you have access to the models you want to use.
+* `modelId` - Embeddings model identifier
 * `request` - Amazon Titan Embeddings specific request structure.
 
 **Result**
@@ -133,6 +134,7 @@ Create Images with Stability Diffusion SDXL 1.0
 |                      | anthropic.claude-3-haiku-20240307-v1:0 | Claude 3 Haiku       |
 | AmazonTitanText      | amazon.titan-text-lite-v1              | Titan Text G1 Lite   |
 |                      | amazon.titan-text-express-v1           | Titan Text G1 Express |
+| | amazon.titan-embed-text-v2:0 | Titan Embeddings V2 |
 | MistralText          | mistral.mistral-7b-instruct-v0:2       | Mistral 7B Instruct  |
 |                      | mistral.mixtral-8x7b-instruct-v0:1     | Mistral 8x7B Instruct |
 |                      | mistral.mistral-large-2402-v1:0        | Mistral Large        |

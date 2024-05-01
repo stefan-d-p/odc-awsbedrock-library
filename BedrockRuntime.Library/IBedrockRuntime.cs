@@ -141,6 +141,10 @@ namespace Without.Systems.BedrockRuntime
                 DataType = OSDataType.Text)]
             string region,
             [OSParameter(
+                Description = "Amazon Titan Embeddings Model Identifier",
+                DataType = OSDataType.Text)]
+            string modelId,
+            [OSParameter(
                 Description = "Amazon Titan Embeddings Request")]
             AmazonTitanEmbeddingsRequest request);
 

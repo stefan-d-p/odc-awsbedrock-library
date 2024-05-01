@@ -162,10 +162,9 @@ public class BedrockRuntime : IBedrockRuntime
         }
     }
 
-    public AmazonTitanEmbeddingsResponse AmazonTitanEmbeddings(Credentials credentials, string region,
+    public AmazonTitanEmbeddingsResponse AmazonTitanEmbeddings(Credentials credentials, string region, string modelId,
         AmazonTitanEmbeddingsRequest request)
     {
-        const string modelId = "amazon.titan-embed-text-v1";
         var dtoRequest = _automapper.Map<AmazonTitanEmbeddingsRequestDto>(request);
         
         using (MemoryStream payload = new MemoryStream(JsonSerializer.SerializeToUtf8Bytes(dtoRequest, _serializerOptions)))
