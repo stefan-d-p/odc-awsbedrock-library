@@ -10,7 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="13.0.1" />
-        <PackageReference Include="AWSSDK.BedrockRuntime" Version="3.7.301.66" />
+        <PackageReference Include="AWSSDK.BedrockRuntime" Version="3.7.303.7" />
         <PackageReference Include="OutSystems.ExternalLibraries.SDK" Version="1.4.0"/>
     </ItemGroup>
 

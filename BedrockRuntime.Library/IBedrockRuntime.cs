@@ -190,5 +190,25 @@ namespace Without.Systems.BedrockRuntime
                 Description = "Stability Diffusion Request")]
             StabilityDiffusionTextToImageRequest request);
 
+        [OSAction(
+            Description = "Sends messages to the specified Amazon Bedrock model",
+            ReturnName = "response",
+            ReturnDescription = "Converse Response",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.BedrockRuntime.Resources.BedrockRuntime.png")]
+        ConverseResponse Converse(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Converse Request Parameters",
+                DataType = OSDataType.InferredFromDotNetType)]
+            ConverseRequest request);
+
     }
 }

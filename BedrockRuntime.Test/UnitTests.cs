@@ -1,5 +1,13 @@
+using Amazon.BedrockRuntime.Model;
 using Microsoft.Extensions.Configuration;
 using Without.Systems.BedrockRuntime.Structures;
+using ContentBlock = Without.Systems.BedrockRuntime.Structures.ContentBlock;
+using ConverseRequest = Without.Systems.BedrockRuntime.Structures.ConverseRequest;
+using Message = Without.Systems.BedrockRuntime.Structures.Message;
+using Tool = Without.Systems.BedrockRuntime.Structures.Tool;
+using ToolConfiguration = Without.Systems.BedrockRuntime.Structures.ToolConfiguration;
+using ToolInputSchema = Without.Systems.BedrockRuntime.Structures.ToolInputSchema;
+using ToolSpecification = Without.Systems.BedrockRuntime.Structures.ToolSpecification;
 
 namespace Without.Systems.BedrockRuntime.Test;
 
@@ -22,6 +30,7 @@ public class Tests
         string awsSecretAccessKey = configuration["AWSSecretAccessKey"] ?? throw new InvalidOperationException();
         
         _credentials = new Credentials(awsAccessKey,awsSecretAccessKey);
+        
     }
 
    
@@ -175,5 +184,75 @@ public class Tests
         Assert.That(result.Artifacts.Count, Is.Positive);
         
     }
-    
+
+    [Test]
+    public void Simple_Converse()
+    {
+        ConverseRequest request = new ConverseRequest
+        {
+            ModelId    = "anthropic.claude-3-sonnet-20240229-v1:0",
+            Messages = new List<Message>
+            {
+                new Message
+                {
+                    Role = "user",
+                    Content = new List<ContentBlock>
+                    {
+                        new ContentBlock
+                        {
+                            Text = "What are the benefits of a Low-Code Platform"
+                        }
+                    }
+                }
+            }
+        };
+
+        var result = _actions.Converse(_credentials, _awsRegion, request);
+
+        
+    }
+
+    [Test]
+    public void Simple_Converse_With_Tool()
+    {
+        ConverseRequest request = new ConverseRequest
+        {
+            ModelId = "anthropic.claude-3-sonnet-20240229-v1:0",
+            ToolConfig = new ToolConfiguration
+            {
+                Tools = new List<Tool>
+                {
+                    new Tool
+                    {
+                        ToolSpec = new ToolSpecification
+                        {
+                            Description = "Get the most popular song played on a radio station.",
+                            Name = "top_song",
+                            InputSchema = new ToolInputSchema
+                            {
+                                Json = "{\"type\": \"object\",\"properties\": {\"search\": {\"type\": \"string\",\"description\": \"the string to search in the db\"}},\"required\": [\"search\"]}"
+                            }
+                        }
+                    }
+                }
+            },
+            Messages = new List<Message>
+            {
+                new Message
+                {
+                    Role = "user",
+                    Content = new List<ContentBlock>
+                    {
+                        new ContentBlock
+                        {
+                            Text = "What is the most popular song on WZPZ?"
+                        }
+                    }
+                }
+            }
+        };
+
+        var result = _actions.Converse(_credentials, _awsRegion, request);
+    }
+
 }
