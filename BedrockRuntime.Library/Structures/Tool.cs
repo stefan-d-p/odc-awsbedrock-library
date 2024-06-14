@@ -8,5 +8,12 @@ public struct Tool
     [OSStructureField(Description = "The specification for the tools",
         DataType = OSDataType.InferredFromDotNetType,
         IsMandatory = true)]
-    public ToolSpecification ToolSpec;
+    public ToolSpecification ToolSpec = ToolSpecification.Default;
+
+    public Tool()
+    {
+        
+    }
+
+    public static Tool Default => new Tool();
 }

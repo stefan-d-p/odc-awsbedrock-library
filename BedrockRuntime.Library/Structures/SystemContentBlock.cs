@@ -9,5 +9,12 @@ public struct SystemContentBlock
     [OSStructureField(Description = "A system prompt for the model",
         DataType = OSDataType.Text,
         IsMandatory = true)]
-    public string Text;
+    public string Text = String.Empty;
+
+    public SystemContentBlock()
+    {
+        
+    }
+
+    public static SystemContentBlock Default => new SystemContentBlock();
 }

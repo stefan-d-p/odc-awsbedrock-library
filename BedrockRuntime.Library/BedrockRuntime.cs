@@ -14,6 +14,11 @@ using Without.Systems.BedrockRuntime.Extensions;
 using Without.Systems.BedrockRuntime.Models;
 using Without.Systems.BedrockRuntime.Structures;
 using Without.Systems.BedrockRuntime.Util;
+using ImageBlock = Without.Systems.BedrockRuntime.Structures.ImageBlock;
+using InferenceConfiguration = Without.Systems.BedrockRuntime.Structures.InferenceConfiguration;
+using ToolConfiguration = Without.Systems.BedrockRuntime.Structures.ToolConfiguration;
+using ToolResultBlock = Without.Systems.BedrockRuntime.Structures.ToolResultBlock;
+using ToolUseBlock = Without.Systems.BedrockRuntime.Structures.ToolUseBlock;
 
 namespace Without.Systems.BedrockRuntime;
 
@@ -33,8 +38,15 @@ public class BedrockRuntime : IBedrockRuntime
         {
             cfg.AllowNullCollections = true;
             cfg.AllowNullDestinationValues = true;
-            
-            cfg.CreateMap<Structures.ConverseRequest, Amazon.BedrockRuntime.Model.ConverseRequest>();
+
+            cfg.CreateMap<Structures.ConverseRequest, Amazon.BedrockRuntime.Model.ConverseRequest>()
+                .ForMember(dest => dest.System, opt => opt.Condition(src => src.System.Count > 0))
+                .ForMember(dest => dest.InferenceConfig,
+                    opt => opt.Condition(src => !InferenceConfiguration.Default.Equals(src.InferenceConfig)))
+                .ForMember(dest => dest.ToolConfig,
+                    opt => opt.Condition(src => !ToolConfiguration.Default.Equals(src.ToolConfig)))
+                .ForMember(dest => dest.AdditionalModelResponseFieldPaths,
+                    opt => opt.Condition(src => src.AdditionalModelResponseFieldPaths.Count > 0));
             
             cfg.CreateMap<AmazonTitanTextRequest, AmazonTitanTextRequestDto>();
             cfg.CreateMap<AmazonTitanTextConfiguration, AmazonTitanTextConfigurationDto>();
@@ -109,7 +121,12 @@ public class BedrockRuntime : IBedrockRuntime
             cfg.CreateMap<Amazon.BedrockRuntime.Model.ToolUseBlock, Structures.ToolUseBlock>()
                 .ForMember(dest => dest.Input, opt => opt.Condition(src => src != null))
                 .ForMember(dest => dest.Input, opt => opt.ConvertUsing<Document>(new DocumentToJsonConverter()));
-            cfg.CreateMap<Structures.ContentBlock, Amazon.BedrockRuntime.Model.ContentBlock>();
+            cfg.CreateMap<Structures.ContentBlock, Amazon.BedrockRuntime.Model.ContentBlock>()
+                .ForMember(dest => dest.Image, opt => opt.Condition(src => !ImageBlock.Default.Equals(src.Image)))
+                .ForMember(dest => dest.ToolResult,
+                    opt => opt.Condition(src => !ToolResultBlock.Default.Equals(src.ToolResult)))
+                .ForMember(dest => dest.ToolUse,
+                    opt => opt.Condition(src => !ToolUseBlock.Default.Equals(src.ToolUse)));
             cfg.CreateMap<Amazon.BedrockRuntime.Model.ContentBlock, Structures.ContentBlock>();
             
             cfg.CreateMap<Structures.Message, Amazon.BedrockRuntime.Model.Message>()
@@ -119,12 +136,9 @@ public class BedrockRuntime : IBedrockRuntime
             
             cfg.CreateMap<Structures.SystemContentBlock, Amazon.BedrockRuntime.Model.SystemContentBlock>();
             cfg.CreateMap<Structures.ToolInputSchema, Amazon.BedrockRuntime.Model.ToolInputSchema>()
-                .ForMember(dest => dest.Json, opt => opt.ConvertUsing<string>(new JsonToDocumentConverter()));
+                .ForMember(dest => dest.Json, opt => opt.ConvertUsing<string>(new ValueConverter()));
 
-            
             cfg.CreateMap<Structures.ToolSpecification, Amazon.BedrockRuntime.Model.ToolSpecification>();
-                
-                
             cfg.CreateMap<Structures.Tool, Amazon.BedrockRuntime.Model.Tool>();
             cfg.CreateMap<Structures.ToolConfiguration, Amazon.BedrockRuntime.Model.ToolConfiguration>();
 

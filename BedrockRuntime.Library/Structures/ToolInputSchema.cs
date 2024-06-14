@@ -8,5 +8,12 @@ public struct ToolInputSchema
     [OSStructureField(Description = "The JSON schema for the tool",
         DataType = OSDataType.Text,
         IsMandatory = true)]
-    public string Json;
+    public string Json = String.Empty;
+
+    public ToolInputSchema()
+    {
+        
+    }
+
+    public static ToolInputSchema Default => new ToolInputSchema();
 }

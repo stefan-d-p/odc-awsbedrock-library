@@ -11,7 +11,7 @@ public struct Message
         IsMandatory = true)]
     public List<ContentBlock> Content;
     
-    [OSStructureField(Description = "The role that the message plays in the message",
+    [OSStructureField(Description = "The role that the message plays in the message. Valid values are user and assistant.",
         DataType = OSDataType.Text,
         IsMandatory = true)]
     public string Role;

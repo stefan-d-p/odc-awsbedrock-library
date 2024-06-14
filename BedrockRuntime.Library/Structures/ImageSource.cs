@@ -8,5 +8,12 @@ public struct ImageSource
     [OSStructureField(Description = "Image Binary Data",
         DataType = OSDataType.BinaryData,
         IsMandatory = true)]
-    public byte[] Data;
+    public byte[] Data = Array.Empty<byte>();
+
+    public ImageSource()
+    {
+        
+    }
+
+    public static ImageSource Default => new ImageSource();
 }

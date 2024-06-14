@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Without.Systems.BedrockRuntime.Structures;
 using ContentBlock = Without.Systems.BedrockRuntime.Structures.ContentBlock;
 using ConverseRequest = Without.Systems.BedrockRuntime.Structures.ConverseRequest;
+using InferenceConfiguration = Without.Systems.BedrockRuntime.Structures.InferenceConfiguration;
 using Message = Without.Systems.BedrockRuntime.Structures.Message;
 using Tool = Without.Systems.BedrockRuntime.Structures.Tool;
 using ToolConfiguration = Without.Systems.BedrockRuntime.Structures.ToolConfiguration;
@@ -230,7 +231,7 @@ public class Tests
                             Name = "top_song",
                             InputSchema = new ToolInputSchema
                             {
-                                Json = "{\"type\": \"object\",\"properties\": {\"search\": {\"type\": \"string\",\"description\": \"the string to search in the db\"}},\"required\": [\"search\"]}"
+                                Json = "{\"type\": \"object\",\"properties\": {\"search\": {\"type\": \"string\",\"description\": \"the string to search in the db\"},\"location\": {\"type\": \"string\",\"description\": \"in which city to search\"}},\"required\": [\"search\",\"location\"]}"
                             }
                         }
                     }
@@ -251,6 +252,12 @@ public class Tests
                 }
             }
         };
+        
+        InferenceConfiguration config = InferenceConfiguration.Default;
+        InferenceConfiguration config2 = InferenceConfiguration.Default;
+
+        var b = config.Equals(config2);
+        
 
         var result = _actions.Converse(_credentials, _awsRegion, request);
     }

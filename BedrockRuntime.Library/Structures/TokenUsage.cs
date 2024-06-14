@@ -7,13 +7,20 @@ public struct TokenUsage
 {
     [OSStructureField(Description = "The number of tokens sent in the request to the model",
         DataType = OSDataType.Integer)]
-    public int? InputTokens;
+    public int InputTokens = 0;
     
     [OSStructureField(Description = "The number of tokens returned by the model",
         DataType = OSDataType.Integer)]
-    public int? OutputTokens;
+    public int OutputTokens = 0;
     
     [OSStructureField(Description = "The number of tokens used in the inference call",
         DataType = OSDataType.Integer)]
-    public int? TotalTokens;
+    public int TotalTokens = 0;
+
+    public TokenUsage()
+    {
+        
+    }
+
+    public static TokenUsage Default => new TokenUsage();
 }
