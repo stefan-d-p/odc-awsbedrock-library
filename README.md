@@ -126,6 +126,20 @@ Create Images with Stability Diffusion SDXL 1.0
 
 * `response` - Response structure
 
+### Converse
+
+You can use the Amazon Bedrock Converse API to create conversational applications that send and receive messages to and from an Amazon Bedrock model. For example, you can create a chat bot that maintains a conversation over many turns and uses a persona or tone customization that is unique to your needs, such as a helpful technical support assistant
+
+**Input parameters**
+
+* `credentials` - AWS IAM credentials. You can either use IAM user credentials (Access Key and Secret Access Key) or an IAM role (Access Key, Secret Access Key and Session Token)
+* `region` - The AWS region system name (e.g. us-east-1). Make sure to specify a region where you have access to the models you want to use.
+* `request` - Comverse request structure.
+
+**Result**
+
+* `response` - Response structure
+
 ## Model values
 
 | Action               | Model Identifier                       | Model                |
