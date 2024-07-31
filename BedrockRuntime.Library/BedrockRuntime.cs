@@ -148,6 +148,36 @@ public class BedrockRuntime : IBedrockRuntime
             cfg.CreateMap<Amazon.BedrockRuntime.Model.ConverseOutput, Structures.ConverseOutput>();
             cfg.CreateMap<Amazon.BedrockRuntime.Model.ConverseResponse, Structures.ConverseResponse>();
 
+            cfg.CreateMap<Structures.GuardrailTextBlock, Amazon.BedrockRuntime.Model.GuardrailTextBlock>();
+            cfg.CreateMap<Structures.GuardrailContentBlock, Amazon.BedrockRuntime.Model.GuardrailContentBlock>();
+            cfg.CreateMap<Structures.ApplyGuardrailRequest, Amazon.BedrockRuntime.Model.ApplyGuardrailRequest>()
+                .ForMember(dest => dest.Source,
+                    opt => opt.MapFrom(src => GuardrailContentSource.FindValue(src.Source)));
+
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailContentFilter, Structures.GuardrailContentFilter>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailContentPolicyAssessment,
+                Structures.GuardrailContentPolicyAssessment>();
+
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailContextualGroundingFilter,
+                Structures.GuardrailContextualGroundingFilter>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailContextualGroundingPolicyAssessment,
+                Structures.GuardrailContextualGroundingPolicyAssessment>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailPiiEntityFilter, Structures.GuardrailPiiEntityFilter>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailRegexFilter, Structures.GuardrailRegexFilter>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailSensitiveInformationPolicyAssessment,
+                Structures.GuardrailSensitiveInformationPolicyAssessment>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailTopic, Structures.GuardrailTopic>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailTopicPolicyAssessment,
+                Structures.GuardrailTopicPolicyAssessment>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailCustomWord, Structures.GuardrailCustomWord>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailManagedWord, Structures.GuardrailManagedWord>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailWordPolicyAssessment,
+                Structures.GuardrailWordPolicyAssessment>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailAssessment, Structures.GuardrailAssessment>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailOutputContent, Structures.GuardrailOutputContent>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailUsage, Structures.GuardrailUsage>();
+            cfg.CreateMap<Amazon.BedrockRuntime.Model.ApplyGuardrailResponse, Structures.ApplyGuardrailResponse>();
+
         });
 
         _automapper = mapperConfiguration.CreateMapper();
@@ -272,6 +302,23 @@ public class BedrockRuntime : IBedrockRuntime
         return _automapper.Map<Structures.ConverseResponse>(response);
     }
 
+    public Structures.ApplyGuardrailResponse ApplyGuardrail(Credentials credentials, string region,
+        Structures.ApplyGuardrailRequest request)
+    {
+        var dtoRequest = _automapper.Map<Amazon.BedrockRuntime.Model.ApplyGuardrailRequest>(request);
+
+        AmazonBedrockRuntimeClient client =
+            new AmazonBedrockRuntimeClient(credentials.ToAwsCredentials(), RegionEndpoint.GetBySystemName(region));
+
+        var response = AsyncUtil.RunSync(() => client.ApplyGuardrailAsync(dtoRequest));
+
+        if (!(response.HttpStatusCode.Equals(HttpStatusCode.OK) ||
+              response.HttpStatusCode.Equals(HttpStatusCode.NoContent)))
+            throw new Exception($"Error invoking model with status code {response.HttpStatusCode}");
+
+        return _automapper.Map<Structures.ApplyGuardrailResponse>(response);
+    }
+ 
     private MemoryStream InvokeModel(Credentials credentials, string region, string modelId, MemoryStream payload, string guardRailIdentifier = "", string guardRailVersion = "")
     {
         AmazonBedrockRuntimeClient client =

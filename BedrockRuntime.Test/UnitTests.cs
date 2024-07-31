@@ -1,8 +1,12 @@
+using Amazon.BedrockRuntime;
 using Amazon.BedrockRuntime.Model;
 using Microsoft.Extensions.Configuration;
 using Without.Systems.BedrockRuntime.Structures;
+using ApplyGuardrailRequest = Without.Systems.BedrockRuntime.Structures.ApplyGuardrailRequest;
 using ContentBlock = Without.Systems.BedrockRuntime.Structures.ContentBlock;
 using ConverseRequest = Without.Systems.BedrockRuntime.Structures.ConverseRequest;
+using GuardrailContentBlock = Without.Systems.BedrockRuntime.Structures.GuardrailContentBlock;
+using GuardrailTextBlock = Without.Systems.BedrockRuntime.Structures.GuardrailTextBlock;
 using InferenceConfiguration = Without.Systems.BedrockRuntime.Structures.InferenceConfiguration;
 using Message = Without.Systems.BedrockRuntime.Structures.Message;
 using Tool = Without.Systems.BedrockRuntime.Structures.Tool;
@@ -214,6 +218,26 @@ public class Tests
     }
 
     [Test]
+    public void ApplyGuardRail()
+    {
+        ApplyGuardrailRequest request = new ApplyGuardrailRequest
+        {
+            GuardrailIdentifier = "ncmstc6mut3d",
+            GuardrailVersion = "1",
+            Source = "INPUT",
+            Content = new List<GuardrailContentBlock>()
+            {
+                new GuardrailContentBlock()
+                {
+                    Text = new GuardrailTextBlock() { Text = "Outsystems is a bad platform" }
+                }
+            }
+        };
+        
+        var result = _actions.ApplyGuardrail(_credentials, _awsRegion, request);
+    }
+
+    [Test]
     public void Simple_Converse_With_Tool()
     {
         ConverseRequest request = new ConverseRequest
@@ -257,7 +281,6 @@ public class Tests
         InferenceConfiguration config2 = InferenceConfiguration.Default;
 
         var b = config.Equals(config2);
-        
 
         var result = _actions.Converse(_credentials, _awsRegion, request);
     }

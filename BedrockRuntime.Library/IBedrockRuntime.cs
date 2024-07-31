@@ -210,5 +210,25 @@ namespace Without.Systems.BedrockRuntime
                 DataType = OSDataType.InferredFromDotNetType)]
             ConverseRequest request);
 
+        [OSAction(
+            Description = "The action to apply a guardrail",
+            ReturnName = "response",
+            ReturnDescription = "Apply Guardrail Response",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.BedrockRuntime.Resources.BedrockRuntime.png")]
+        Structures.ApplyGuardrailResponse ApplyGuardrail(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Apply Guardrail Request structure",
+                DataType = OSDataType.InferredFromDotNetType)]
+            ApplyGuardrailRequest request);
+
     }
 }
