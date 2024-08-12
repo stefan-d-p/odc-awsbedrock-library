@@ -1,3 +1,4 @@
+using Amazon.BedrockAgentRuntime.Model;
 using Amazon.BedrockRuntime;
 using Amazon.BedrockRuntime.Model;
 using Microsoft.Extensions.Configuration;
@@ -283,6 +284,7 @@ public class Tests
         var b = config.Equals(config2);
 
         var result = _actions.Converse(_credentials, _awsRegion, request);
+
     }
 
 }
