@@ -178,6 +178,17 @@ public class BedrockRuntime : IBedrockRuntime
             cfg.CreateMap<Amazon.BedrockRuntime.Model.GuardrailUsage, Structures.GuardrailUsage>();
             cfg.CreateMap<Amazon.BedrockRuntime.Model.ApplyGuardrailResponse, Structures.ApplyGuardrailResponse>();
 
+            cfg.CreateMap<Structures.GuardrailConfiguration, Amazon.BedrockRuntime.Model.GuardrailConfiguration>()
+                .ForMember(dest => dest.GuardrailIdentifier,
+                    opt => opt.Condition(src => !string.IsNullOrEmpty(src.GuardrailIdentifier)))
+                .ForMember(dest => dest.GuardrailVersion,
+                    opt => opt.Condition(src => !string.IsNullOrEmpty(src.GuardrailVersion)))
+                .ForMember(dest => dest.Trace, opt =>
+                {
+                    opt.PreCondition(src => !string.IsNullOrEmpty(src.Trace));
+                    opt.MapFrom(src => GuardrailTrace.FindValue(src.Trace));
+                });
+
         });
 
         _automapper = mapperConfiguration.CreateMapper();

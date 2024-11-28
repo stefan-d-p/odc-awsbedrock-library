@@ -6,6 +6,7 @@ using Without.Systems.BedrockRuntime.Structures;
 using ApplyGuardrailRequest = Without.Systems.BedrockRuntime.Structures.ApplyGuardrailRequest;
 using ContentBlock = Without.Systems.BedrockRuntime.Structures.ContentBlock;
 using ConverseRequest = Without.Systems.BedrockRuntime.Structures.ConverseRequest;
+using GuardrailConfiguration = Amazon.BedrockRuntime.Model.GuardrailConfiguration;
 using GuardrailContentBlock = Without.Systems.BedrockRuntime.Structures.GuardrailContentBlock;
 using GuardrailTextBlock = Without.Systems.BedrockRuntime.Structures.GuardrailTextBlock;
 using InferenceConfiguration = Without.Systems.BedrockRuntime.Structures.InferenceConfiguration;
@@ -36,7 +37,6 @@ public class Tests
         string awsSecretAccessKey = configuration["AWSSecretAccessKey"] ?? throw new InvalidOperationException();
         
         _credentials = new Credentials(awsAccessKey,awsSecretAccessKey);
-        
     }
 
    
