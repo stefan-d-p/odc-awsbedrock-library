@@ -5,6 +5,11 @@ namespace Without.Systems.BedrockRuntime.Structures;
 [OSStructure(Description = "Container for the parameters to the Converse operation")]
 public struct ConverseRequest
 {
+    [OSStructureField(Description = "Guardrail Configuration",
+        DataType = OSDataType.InferredFromDotNetType,
+        IsMandatory = false)]
+    public GuardrailConfiguration GuardrailConfig = GuardrailConfiguration.Default;
+    
     [OSStructureField(Description = "The identifier for the model that you want to call",
         DataType = OSDataType.Text,
         IsMandatory = true)]

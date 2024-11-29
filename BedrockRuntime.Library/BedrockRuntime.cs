@@ -46,7 +46,9 @@ public class BedrockRuntime : IBedrockRuntime
                 .ForMember(dest => dest.ToolConfig,
                     opt => opt.Condition(src => !ToolConfiguration.Default.Equals(src.ToolConfig)))
                 .ForMember(dest => dest.AdditionalModelResponseFieldPaths,
-                    opt => opt.Condition(src => src.AdditionalModelResponseFieldPaths.Count > 0));
+                    opt => opt.Condition(src => src.AdditionalModelResponseFieldPaths.Count > 0))
+                .ForMember(dest => dest.GuardrailConfig, opt => opt.Condition(src => !string.IsNullOrEmpty(src.GuardrailConfig.GuardrailIdentifier)));
+                
             
             cfg.CreateMap<AmazonTitanTextRequest, AmazonTitanTextRequestDto>();
             cfg.CreateMap<AmazonTitanTextConfiguration, AmazonTitanTextConfigurationDto>();
