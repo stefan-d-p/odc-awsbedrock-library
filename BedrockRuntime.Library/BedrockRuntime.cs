@@ -125,6 +125,7 @@ public class BedrockRuntime : IBedrockRuntime
                 .ForMember(dest => dest.Input, opt => opt.ConvertUsing<Document>(new DocumentToJsonConverter()));
             cfg.CreateMap<Structures.ContentBlock, Amazon.BedrockRuntime.Model.ContentBlock>()
                 .ForMember(dest => dest.Image, opt => opt.Condition(src => !ImageBlock.Default.Equals(src.Image)))
+                .ForMember(dest => dest.Text, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Text)))
                 .ForMember(dest => dest.ToolResult,
                     opt => opt.Condition(src => !ToolResultBlock.Default.Equals(src.ToolResult)))
                 .ForMember(dest => dest.ToolUse,
