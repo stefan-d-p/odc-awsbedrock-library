@@ -332,6 +332,35 @@ public class BedrockRuntime : IBedrockRuntime
 
         return _automapper.Map<Structures.ApplyGuardrailResponse>(response);
     }
+
+    public byte[] InvokeModel(Credentials credentials, string region, string modelId, byte[] payload,
+        string guardRailIdentifier = "", string guardRailVersion = "")
+    {
+        AmazonBedrockRuntimeClient client =
+            new AmazonBedrockRuntimeClient(credentials.ToAwsCredentials(), RegionEndpoint.GetBySystemName(region));
+
+        InvokeModelRequest request = new InvokeModelRequest
+        {
+            ContentType = MediaTypeNames.Application.Json,
+            ModelId = modelId,
+            Body = new MemoryStream(payload)
+        };
+
+        /*
+         * Guardrail Configuration
+         */
+
+        if (!string.IsNullOrEmpty(guardRailIdentifier)) request.GuardrailIdentifier = guardRailIdentifier;
+        if (!string.IsNullOrEmpty(guardRailVersion)) request.GuardrailVersion = guardRailVersion;
+
+        InvokeModelResponse response = AsyncUtil.RunSync(() => client.InvokeModelAsync(request));
+
+        if (!(response.HttpStatusCode.Equals(HttpStatusCode.OK) ||
+              response.HttpStatusCode.Equals(HttpStatusCode.NoContent)))
+            throw new Exception($"Error invoking model with status code {response.HttpStatusCode}");
+
+        return response.Body.ToArray();
+    }
  
     private MemoryStream InvokeModel(Credentials credentials, string region, string modelId, MemoryStream payload, string guardRailIdentifier = "", string guardRailVersion = "")
     {

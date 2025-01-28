@@ -30,6 +30,8 @@
       <EmbeddedResource Include="Resources\Meta.png" />
       <None Remove="Resources\Stability.png" />
       <EmbeddedResource Include="Resources\Stability.png" />
+      <None Remove="Resources\AWSBedrock.png" />
+      <EmbeddedResource Include="Resources\AWSBedrock.png" />
     </ItemGroup>
 
 </Project>

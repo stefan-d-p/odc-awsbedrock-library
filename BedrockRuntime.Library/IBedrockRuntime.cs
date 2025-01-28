@@ -6,7 +6,7 @@ namespace Without.Systems.BedrockRuntime
     [OSInterface(
         Name = "AWSBedrockRuntime",
         Description = "AWS Bedrock Runtime SDK Wrapper. Build your own Generative AI applications with Amazon Bedrock Foundation Models and Agents.",
-        IconResourceName = "Without.Systems.BedrockRuntime.Resources.BedrockRuntime.png")]
+        IconResourceName = "Without.Systems.BedrockRuntime.Resources.AWSBedrock.png")]
     public interface IBedrockRuntime
     {
         [OSAction(
@@ -195,7 +195,7 @@ namespace Without.Systems.BedrockRuntime
             ReturnName = "response",
             ReturnDescription = "Converse Response",
             ReturnType = OSDataType.InferredFromDotNetType,
-            IconResourceName = "Without.Systems.BedrockRuntime.Resources.BedrockRuntime.png")]
+            IconResourceName = "Without.Systems.BedrockRuntime.Resources.AWSBedrock.png")]
         ConverseResponse Converse(
             [OSParameter(
                 Description = "AWS Account Credentials",
@@ -215,7 +215,7 @@ namespace Without.Systems.BedrockRuntime
             ReturnName = "response",
             ReturnDescription = "Apply Guardrail Response",
             ReturnType = OSDataType.InferredFromDotNetType,
-            IconResourceName = "Without.Systems.BedrockRuntime.Resources.BedrockRuntime.png")]
+            IconResourceName = "Without.Systems.BedrockRuntime.Resources.AWSBedrock.png")]
         Structures.ApplyGuardrailResponse ApplyGuardrail(
             [OSParameter(
                 Description = "AWS Account Credentials",
@@ -229,6 +229,38 @@ namespace Without.Systems.BedrockRuntime
                 Description = "Apply Guardrail Request structure",
                 DataType = OSDataType.InferredFromDotNetType)]
             ApplyGuardrailRequest request);
+
+        [OSAction(
+            Description = "Direct Model Invocation",
+            ReturnName = "response",
+            ReturnDescription = "Model Invocation response",
+            ReturnType = OSDataType.BinaryData,
+            IconResourceName = "Without.Systems.BedrockRuntime.Resources.AWSBedrock.png")]
+        public byte[] InvokeModel(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Model Identifier",
+                DataType = OSDataType.Text)]
+            string modelId,
+            [OSParameter(
+                Description = "Prompt payload as binary data",
+                DataType = OSDataType.BinaryData)]
+            byte[] payload,
+            [OSParameter(
+                Description = "Optional Guardrail Identifier",
+                DataType = OSDataType.Text)]
+            string guardRailIdentifier = "",
+            [OSParameter(
+                Description = "Guardail version",
+                DataType = OSDataType.Text)]
+            string guardRailVersion = "");
 
     }
 }
